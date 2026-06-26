@@ -3,11 +3,10 @@
 import { createLogger, format, Logger, transports } from "winston";
 
 export class WorkerOrchestratorLoggerSingleton {
-  private logger: Logger | null = null;
-  public instanceLogger() {
-    if (this.logger) return this.logger;
-
-    return createLogger({
+  private static _instance: Logger | null = null;
+  static instance() {
+    if (this._instance) return this._instance;
+    this._instance = createLogger({
       level: "info",
       format: format.combine(
         format.timestamp({
@@ -25,5 +24,7 @@ export class WorkerOrchestratorLoggerSingleton {
         }),
       ],
     });
+
+    return this._instance;
   }
 }
