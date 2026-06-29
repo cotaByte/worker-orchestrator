@@ -9,10 +9,12 @@ import { WorkerConfigInvalidError } from "../errors/WorkerConfigInvalidError";
 
 export type WorkerConfig = {
   name: string;
+  image: string;
 };
 
 const WorkerDefinitionSchema = z.object({
   name: z.string().min(1),
+  image: z.string().min(1),
 });
 
 const WorkersFileSchema = z.object({
@@ -86,6 +88,11 @@ export class WorkerResolverService {
       throw new WorkerConfigInvalidError(this.configPath, issues);
     }
 
-    return new Map(result.data.workers.map((w) => [w.name, { name: w.name }]));
+    return new Map(
+      result.data.workers.map((w) => [
+        w.name,
+        { name: w.name, image: w.image },
+      ]),
+    );
   }
 }

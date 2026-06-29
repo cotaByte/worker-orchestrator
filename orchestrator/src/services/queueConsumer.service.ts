@@ -7,7 +7,10 @@ import { catchError, mergeMap, retry, switchMap, tap } from "rxjs/operators";
 import { WorkerOrchestratorLoggerSingleton } from "./logger.service";
 import { QueueMessageSchema } from "../types/queue";
 import { WorkerResolverService } from "./workerResolver.service";
-import * as workerInstancer from "./workerInstancer.service";
+import {
+  WorkerAction,
+  WorkerInstancerService,
+} from "./workerInstancer.service";
 
 function connectionObservable(url: string): Observable<amqp.Channel> {
   return from(amqp.connect(url)).pipe(
@@ -160,11 +163,22 @@ export class QueueConsumerService {
     }
 
     try {
-      const workerConfig = WorkerResolverService.instance().resolve(result.data);
-      await workerInstancer.run(workerConfig, result.data.metadata);
+      const workerConfig = WorkerResolverService.instance().resolve(
+        result.data,
+      );
+      const instancer = WorkerInstancerService.instance();
+      const actions: Record<WorkerAction, () => Promise<void>> = {
+        run: () => instancer.run(workerConfig, result.data.metadata),
+        stop: () => instancer.stop(workerConfig, result.data.metadata),
+        remove: () => instancer.remove(workerConfig, result.data.metadata),
+        restart: () => instancer.restart(workerConfig, result.data.metadata),
+      };
+      await actions[result.data.action]();
+
       channel.ack(msg);
       this.logger.info("Mensaje procesado exitosamente", {
         worker: result.data.worker,
+        action: result.data.action,
       });
     } catch (err) {
       channel.nack(msg, false, false);
