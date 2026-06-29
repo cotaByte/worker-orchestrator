@@ -1,0 +1,39 @@
+services:
+  rabbitmq:
+    build: ./queue
+    env_file: .env
+    networks:
+      - orchestrator-net
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  orchestrator:
+    build: ./orchestrator
+    env_file: .env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./workers:/app/workers
+    environment:
+      WORKERS_CONFIG_PATH: /app/workers/workers.yaml
+    networks:
+      - orchestrator-net
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - orchestrator-net
+
+networks:
+  orchestrator-net:
+    driver: bridge
