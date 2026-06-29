@@ -6,7 +6,7 @@ import { EMPTY, Observable, from, timer } from "rxjs";
 import { catchError, mergeMap, retry, switchMap, tap } from "rxjs/operators";
 import { WorkerOrchestratorLoggerSingleton } from "./logger.service";
 import { QueueMessageSchema } from "../types/queue";
-import * as workerResolver from "./workerResolver.service";
+import { WorkerResolverService } from "./workerResolver.service";
 import * as workerInstancer from "./workerInstancer.service";
 
 function connectionObservable(url: string): Observable<amqp.Channel> {
@@ -160,7 +160,7 @@ export class QueueConsumerService {
     }
 
     try {
-      const workerConfig = await workerResolver.resolve(result.data);
+      const workerConfig = WorkerResolverService.instance().resolve(result.data);
       await workerInstancer.run(workerConfig, result.data.metadata);
       channel.ack(msg);
       this.logger.info("Mensaje procesado exitosamente", {
