@@ -1,5 +1,6 @@
 import Dockerode from "dockerode";
 import { Logger } from "winston";
+import { QUEUES } from "../constants/queues";
 import { WorkerOrchestratorLoggerSingleton } from "./logger.service";
 import { QueuePublisherService } from "./queuePublisher.service";
 import { WorkerConfig } from "./workerResolver.service";
@@ -19,12 +20,10 @@ export class WorkerInstancerService {
   private static _instance: WorkerInstancerService;
   private readonly docker: Dockerode;
   private readonly logger: Logger;
-  private readonly eventsQueue: string;
 
   private constructor() {
     this.docker = new Dockerode();
     this.logger = WorkerOrchestratorLoggerSingleton.instance();
-    this.eventsQueue = process.env.WORKER_EVENTS_QUEUE ?? "worker-events";
   }
 
   static instance(): WorkerInstancerService {
@@ -132,9 +131,9 @@ export class WorkerInstancerService {
 
   private async publishEvent(event: WorkerEvent): Promise<void> {
     try {
-      await QueuePublisherService.instance().publish(this.eventsQueue, event);
+      await QueuePublisherService.instance().publish(QUEUES.WORKER_EVENTS, event);
       this.logger.info("Evento publicado", {
-        queue: this.eventsQueue,
+        queue: QUEUES.WORKER_EVENTS,
         worker: event.worker,
         status: event.status,
       });
