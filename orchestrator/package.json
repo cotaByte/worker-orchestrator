@@ -13,6 +13,7 @@
   "dependencies": {
     "amqplib": "^2.0.1",
     "dockerode": "^5.0.1",
+    "express": "^5.2.1",
     "js-yaml": "^5.1.0",
     "rxjs": "^7.8.2",
     "winston": "^3.19.0",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@types/amqplib": "^0.10.8",
     "@types/dockerode": "^4.0.1",
+    "@types/express": "^5.0.6",
     "@types/js-yaml": "^4.0.9",
     "typescript": "^5.8.3"
   }

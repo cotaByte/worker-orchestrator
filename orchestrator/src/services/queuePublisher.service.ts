@@ -20,7 +20,7 @@ export class QueuePublisherService {
 
   async publish(queue: string, message: object): Promise<void> {
     const channel = await this.getChannel()
-    await channel.assertQueue(queue, { durable: true })
+    await channel.checkQueue(queue)
     channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), { persistent: true })
   }
 
