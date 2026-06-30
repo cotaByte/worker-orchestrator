@@ -3,7 +3,7 @@ import * as yaml from "js-yaml";
 import { z } from "zod";
 import { Logger } from "winston";
 import { WorkerOrchestratorLoggerSingleton } from "./logger.service";
-import { QueueMessage } from "../types/queue";
+import { QueueMessage } from "../types/queue.zod.validations";
 import { WorkerNotFoundError } from "../errors/WorkerNotFoundError";
 import { WorkerConfigInvalidError } from "../errors/WorkerConfigInvalidError";
 

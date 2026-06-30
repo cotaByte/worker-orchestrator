@@ -1,6 +1,6 @@
 import Dockerode from "dockerode";
 import { Logger } from "winston";
-import { QUEUES, WorkerAction, WorkerStatus } from "../constants/queues";
+import { QUEUES, WorkerAction, WorkerStatus } from "../models/queues.model";
 import { WorkerOrchestratorLoggerSingleton } from "./logger.service";
 import { QueuePublisherService } from "./queuePublisher.service";
 import { WorkerConfig } from "./workerResolver.service";

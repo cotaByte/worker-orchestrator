@@ -5,10 +5,10 @@ import { Logger } from "winston";
 import { EMPTY, Observable, from, timer } from "rxjs";
 import { catchError, mergeMap, retry, switchMap, tap } from "rxjs/operators";
 import { WorkerOrchestratorLoggerSingleton } from "./logger.service";
-import { QueueMessageSchema } from "../types/queue";
+import { QueueMessageSchema } from "../types/queue.zod.validations";
 import { WorkerResolverService } from "./workerResolver.service";
 import { WorkerInstancerService } from "./workerInstancer.service";
-import { WorkerAction } from "../constants/queues";
+import { WorkerAction } from "../models/queues.model";
 
 function connectionObservable(url: string): Observable<amqp.Channel> {
   return from(amqp.connect(url)).pipe(

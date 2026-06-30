@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { QUEUE_MESSAGE_ACTIONS, WorkerAction } from "../constants/queues";
+import { QUEUE_MESSAGE_ACTIONS, WorkerAction } from "../models/queues.model";
 
 export type QueueMessage = {
   worker: string;
