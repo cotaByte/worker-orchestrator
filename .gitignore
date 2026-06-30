@@ -1,3 +1,4 @@
 orchestrator/node_modules
 .env
-workers/.*
+workers/*
+!workers/workers.template.yaml

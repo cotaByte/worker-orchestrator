@@ -1,0 +1,7 @@
+workers:
+  - name: test-worker
+    image: alpine:latest
+  - name: python-hello-worker
+    image: python-hello-worker:latest
+  - name: dotnet-goodbye-worker
+    image: dotnet-goodbye-worker:latest

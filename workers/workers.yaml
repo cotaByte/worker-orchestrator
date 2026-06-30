@@ -1,3 +1,0 @@
-workers:
-  - name: test-worker
-    image: alpine:latest

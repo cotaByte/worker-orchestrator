@@ -34,6 +34,16 @@ services:
     networks:
       - orchestrator-net
 
+  python-hello-worker:
+    build: ./workers/python-hello
+    image: python-hello-worker:latest
+    profiles: ["workers"]
+
+  dotnet-goodbye-worker:
+    build: ./workers/dotnet-goodbye
+    image: dotnet-goodbye-worker:latest
+    profiles: ["workers"]
+
 networks:
   orchestrator-net:
     driver: bridge
