@@ -44,7 +44,7 @@ export class WorkerInstancerService {
         "orchestrator.worker": workerConfig.name,
         "orchestrator.started-at": new Date().toISOString(),
       },
-      HostConfig: { AutoRemove: false },
+      HostConfig: { AutoRemove: true },
     });
 
     await container.start();
