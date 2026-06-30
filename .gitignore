@@ -2,3 +2,4 @@ orchestrator/node_modules
 .env
 workers/*
 !workers/workers.template.yaml
+test/*
