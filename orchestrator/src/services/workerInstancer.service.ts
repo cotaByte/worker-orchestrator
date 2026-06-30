@@ -1,12 +1,9 @@
 import Dockerode from "dockerode";
 import { Logger } from "winston";
-import { QUEUES } from "../constants/queues";
+import { QUEUES, WorkerAction, WorkerStatus } from "../constants/queues";
 import { WorkerOrchestratorLoggerSingleton } from "./logger.service";
 import { QueuePublisherService } from "./queuePublisher.service";
 import { WorkerConfig } from "./workerResolver.service";
-
-export type WorkerAction = "run" | "stop" | "remove" | "restart";
-export type WorkerStatus = "started" | "stopped" | "removed" | "restarted";
 
 export type WorkerEvent = {
   worker: string;
@@ -131,7 +128,10 @@ export class WorkerInstancerService {
 
   private async publishEvent(event: WorkerEvent): Promise<void> {
     try {
-      await QueuePublisherService.instance().publish(QUEUES.WORKER_EVENTS, event);
+      await QueuePublisherService.instance().publish(
+        QUEUES.WORKER_EVENTS,
+        event,
+      );
       this.logger.info("Evento publicado", {
         queue: QUEUES.WORKER_EVENTS,
         worker: event.worker,

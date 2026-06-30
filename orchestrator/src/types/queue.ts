@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { WorkerAction } from "../services/workerInstancer.service";
+import { QUEUE_MESSAGE_ACTIONS, WorkerAction } from "../constants/queues";
 
 export type QueueMessage = {
   worker: string;
@@ -9,6 +9,6 @@ export type QueueMessage = {
 
 export const QueueMessageSchema = z.object({
   worker: z.string().min(1),
-  action: z.enum(["run", "stop", "remove", "restart"]).default("run"),
+  action: z.enum(QUEUE_MESSAGE_ACTIONS).default("run"),
   metadata: z.any(),
 });

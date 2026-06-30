@@ -7,10 +7,8 @@ import { catchError, mergeMap, retry, switchMap, tap } from "rxjs/operators";
 import { WorkerOrchestratorLoggerSingleton } from "./logger.service";
 import { QueueMessageSchema } from "../types/queue";
 import { WorkerResolverService } from "./workerResolver.service";
-import {
-  WorkerAction,
-  WorkerInstancerService,
-} from "./workerInstancer.service";
+import { WorkerInstancerService } from "./workerInstancer.service";
+import { WorkerAction } from "../constants/queues";
 
 function connectionObservable(url: string): Observable<amqp.Channel> {
   return from(amqp.connect(url)).pipe(
