@@ -28,6 +28,8 @@ services:
     build: ./nginx
     ports:
       - "80:80"
+      - "${RABBITMQ_AMQP_PORT:-5672}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT:-15672}:15672"
     depends_on:
       rabbitmq:
         condition: service_healthy

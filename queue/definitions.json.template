@@ -5,6 +5,12 @@
       "password_hash": "${RABBITMQ_PASSWORD_HASH}",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
       "tags": ["administrator"]
+    },
+    {
+      "name": "${RABBITMQ_API_USER}",
+      "password_hash": "${RABBITMQ_API_PASSWORD_HASH}",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": ["monitoring"]
     }
   ],
   "vhosts": [{ "name": "/" }],
@@ -13,6 +19,13 @@
       "user": "${RABBITMQ_DEFAULT_USER}",
       "vhost": "/",
       "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "${RABBITMQ_API_USER}",
+      "vhost": "/",
+      "configure": "",
       "write": ".*",
       "read": ".*"
     }
